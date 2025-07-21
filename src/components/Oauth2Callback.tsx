@@ -8,6 +8,7 @@ const OAuth2Callback = () => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
 
+    navigate("/");
     if (token) {
       localStorage.setItem("jwt", token);
       navigate("/", { replace: true });
