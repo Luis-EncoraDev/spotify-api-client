@@ -4,16 +4,23 @@ export interface Image {
     width: number
 }
 
+export interface ArtistFollowers {
+    total: number
+}
+
 export interface Artist {
     genres: string[],
     id: string,
     images: Image[],
-    name: string
+    name: string,
+    followers: ArtistFollowers
 }
 
 export interface AlbumArtist {
     id: string,
-    name: string
+    name: string,
+    release_year: number,
+    images: Image[]
 }
 
 export interface SearchArtistResponse {
@@ -75,8 +82,8 @@ export interface SearchPlaylistResponse {
 }
 
 export interface SearchResponse {
-    artists: SearchArtistResponse,
-    albums: SearchAlbumResponse,
-    tracks: SearchTrackResponse,
-    playlists: SearchPlaylistResponse
+    artists?: SearchArtistResponse,
+    albums?: SearchAlbumResponse,
+    tracks?: SearchTrackResponse,
+    playlists?: SearchPlaylistResponse
 }

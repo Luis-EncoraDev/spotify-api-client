@@ -16,7 +16,7 @@ const PlaylistCard: React.FC<Playlist> = ({ description, id, images, name, owner
                 />
                 <div className="flex flex-col">
                     <p className="font-semibold mx-5 mt-1 text-md text-[#80d6c3]">{name}</p>
-                    <p className="mx-5 mt-1 text-sm">{owner.display_name}</p>
+                    <p className="mx-5 mt-1 text-sm"><span className="font-bold">Playlist</span> - {owner.display_name}</p>
                     <p className="mx-5 mt-1">{tracks.total}</p>
                 </div>
             </Card>
