@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ArtistCard from "./ArtistCard";
 import axios from "axios";
+import type { Artist } from "../interfaces";
 
 interface ArtistImages {
     height: number,
@@ -16,7 +17,7 @@ interface ArtistInfo {
 }
 
 const TopArtists = () => {
-    const [topArtists, setTopArtists] = useState<ArtistInfo[]>();
+    const [topArtists, setTopArtists] = useState<Artist[]>();
     const token = localStorage.getItem("jwt");
 
     const getTopArtists = async () => {
@@ -34,18 +35,14 @@ const TopArtists = () => {
         getTopArtists();
     }, [])
 
-    useEffect(() => {
-        console.log("Response:", topArtists);
-    }, [topArtists]);
-
     return(
         <div className="flex flex-col w-screen h-fit items-center">
             <p className="text-[2rem]">Top artists</p>
-            <div className="w-[85%] h-auto p-4 mt-2 bg-transparent border border-[#9d9e9d] rounded grid grid-cols-4 gap-x-1 gap-y-4">
+            <div className="flex justify-items-center w-[85%] h-auto p-6 mt-2 bg-transparent border border-[#9d9e9d] rounded grid grid-cols-4 gap-x-1 gap-y-4">
                 {
                     topArtists && topArtists.map(artist => {
                         return(
-                            <ArtistCard key={artist.name} genres={artist.genres} id={artist.id} images={artist.images} name={artist.name}/>
+                            <ArtistCard key={artist.name} genres={artist.genres} id={artist.id} images={artist.images} name={artist.name} followers={artist.followers}/>
                         )
                     })
                 }

@@ -11,24 +11,26 @@ const Dashboard = () => {
     const [tracks, setTracks] = useState<Track[]>();
     const [playlists, setPlaylists] = useState<Playlist[]>();
     const token = localStorage.getItem("jwt");
-    
+   
     const getSearchItem = async (searchText: string, typesQueryString: string) => {
             if (searchText != "") {
-                const response = await axios.get(`http://localhost:9090/api/search?q=${searchText}&type=${typesQueryString}`, {
-                    withCredentials: true,
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-            })
+                try {
+                        const response = await axios.get(`http://localhost:9090/api/search?q=${searchText}&type=${typesQueryString}`, {
+                        withCredentials: true,
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        }})
 
-            const data: SearchResponse = response.data;
-
-            console.log("Response:", response);
-            setAlbums(data.albums.items);
-            setArtists(data.artists.items);
-            setTracks(data.tracks.items);
-            setPlaylists(data.playlists.items);
+                        const data: SearchResponse = response.data;
+                        if (data.albums) setAlbums(data.albums.items);
+                        if (data.artists) setArtists(data.artists.items);
+                        if (data.tracks) setTracks(data.tracks.items);
+                        if (data.playlists) setPlaylists(data.playlists.items);
+                } catch (error) {
+                    console.error("An error occurred when fething item:", error);
+                }
+                
         } else {
             setAlbums([]);
             setArtists([]);
@@ -38,10 +40,10 @@ const Dashboard = () => {
     }
 
     return(
-        <div className="flex flex-col h-[100%] justify-start h-full items-center p-12 bg-gradient-to-r from-black to-[#1a5f4b] gap-12">
+        <div className="flex flex-col justify-start h-full items-center p-12 gap-12">
             <SearchBar getSearchItem={getSearchItem}/>
             <TopArtists />
-            <SearchResults albums={albums} artists={artists} tracks={tracks} playlists={playlists}/>
+            <SearchResults albums={albums ? albums : undefined} artists={artists ? artists : undefined} tracks={tracks ? tracks : undefined} playlists={playlists ? playlists : undefined}/>
         </div>
     )
 }

@@ -12,12 +12,16 @@ import PlaylistCard from "./PlaylistCard";
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({ albums, artists, tracks, playlists }) => {
+
+    console.log("Playlists:", playlists);
+
     return(
-        <div className="flex h-auto flex-col items-center">
+        <div className="flex h-full flex-col items-center">
             <p className="text-[2rem]">Search results</p>
             <div className="flex mt-2 grid grid-cols-3 gap-5">
-                {
-                    tracks?.map(track => {
+                {tracks &&
+                    tracks.map(track => {
+                        if (track != null)
                         return(
                             <TrackCard 
                                 key={track.id}
@@ -32,8 +36,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ albums, artists, tracks, 
                         )
                     })
                 }
-                {
-                    albums?.map(album => {
+                { albums &&
+                    albums.map(album => {
+                        if (album != null)
                         return(
                             <AlbumCard
                                 key={album.id}
@@ -48,8 +53,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ albums, artists, tracks, 
                         )
                     })
                 }
-                {
-                    artists?.map(artist => {
+                { artists &&
+                    artists.map(artist => {
+                        if (artist != null)
                         return(
                             <ArtistCard
                                 key={artist.id}
@@ -57,16 +63,18 @@ const SearchResults: React.FC<SearchResultsProps> = ({ albums, artists, tracks, 
                                 id={artist.id}
                                 images={artist.images}
                                 name={artist.name}
+                                followers={artist.followers}
                             />
                         )
                     })
                 }
-                {
-                    playlists?.map(playlist => {
+                { playlists &&
+                    playlists.map(playlist => {
+                        if (playlist != null)
                         return(
                             <PlaylistCard 
                                 key={playlist.id}
-                                description={playlist.description}
+                                description={playlist.description ? playlist.description : ""}
                                 id={playlist.id}
                                 images={playlist.images}
                                 name={playlist.name}

@@ -2,9 +2,9 @@ import { Card, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
 import { type Artist } from "../interfaces";
 
-const ArtistCard: React.FC<Artist> = ({genres, id, images, name}) => {
+const PopularArtistCard: React.FC<Artist> = ({genres, id, images, name}) => {
     return(
-        <Link to="/">
+        <Link to={`/artist/${id}`}>
             <Card sx={{ width: "300px", height: "120px", backgroundColor: "transparent"}} className="flex hover:border hover:border-[#80d6c3] rounded">
                 <CardMedia 
                     component="img"
@@ -17,8 +17,7 @@ const ArtistCard: React.FC<Artist> = ({genres, id, images, name}) => {
                 <div className="flex flex-col gap-1">
                     <p className="font-bold mx-5 mt-2 text-[#80d6c3]">{name}</p>
                     <p className="mx-5">
-                        {genres.map(genre => {
-                            const index = genres.indexOf(genre);
+                        {genres.map((genre, index) => {
                             if (genres.lastIndexOf(genres[genres.length - 1]) === index) return genre;
                             return genre + ", "
                             })}
@@ -29,4 +28,4 @@ const ArtistCard: React.FC<Artist> = ({genres, id, images, name}) => {
     )
 }
 
-export default ArtistCard;
+export default PopularArtistCard;
