@@ -6,15 +6,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Card } from '@mui/material';
 import type { Track } from '../interfaces';
+import { Card } from '@mui/material';
 
-interface PopularSongsTableProps {
-  popularTracks: Track[],
-  setTrackPlaying (trackId: string) : void;
+interface AlbumTracksTableProps {
+  albumTracks: Track[],
+  setTrackPlaying (playingTrackId: string) : void;
 }
 
-const PopularTracksTable: React.FC<PopularSongsTableProps> = ({ popularTracks, setTrackPlaying }) => {
+const AlbumTracksTable: React.FC<AlbumTracksTableProps> = ({ albumTracks, setTrackPlaying }) => {
 
   const formatMilliseconds = (ms: number):string => {
     const totalSeconds = Math.floor(ms / 1000);
@@ -33,24 +33,17 @@ const PopularTracksTable: React.FC<PopularSongsTableProps> = ({ popularTracks, s
         <TableHead>
           <TableRow>
             <TableCell align='center' sx={{ fontWeight: "bold"}}>#</TableCell>
-            <TableCell align="center" sx={{ fontWeight: "bold"}}>Image</TableCell>
             <TableCell align="center" sx={{ fontWeight: "bold"}}>Song name</TableCell>
             <TableCell align="center" sx={{ fontWeight: "bold"}}>Song length</TableCell>
-            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {popularTracks.map((track, index) => (
+          {albumTracks.map((track, index) => (
             <TableRow
               key={track.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align='center' sx={{ width: "1rem" }}>
-                {index + 1}
-              </TableCell>
-              <TableCell align='center' sx={{ width: "6rem", justifyItems: "center"}}>
-                <img src={track.album.images[0].url} className="h-[50px] w-[50px] rounded-[25px]"/>
-              </TableCell>
+              <TableCell align='center' sx={{ width: "1rem" }}>{index + 1}</TableCell>
               <TableCell align='center' sx={{ width: "16rem" }}>
                 <div onClick={() => setTrackPlaying(track.id)}>
                   <Card
@@ -70,4 +63,4 @@ const PopularTracksTable: React.FC<PopularSongsTableProps> = ({ popularTracks, s
   );
 }
 
-export default PopularTracksTable;
+export default AlbumTracksTable;

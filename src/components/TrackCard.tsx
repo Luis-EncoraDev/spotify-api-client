@@ -4,23 +4,16 @@ import { type Track } from "../interfaces";
 
 const TrackCard: React.FC<Track> = ({ album, duration_ms, id, name, preview_url, is_playable, artists }) => {
     return(
-        <Link to="/">
-            <Card sx={{ width: "300px", height: "100px", backgroundColor: "transparent"}} className="flex hover:border hover:border-[#80d6c3] rounded">
-                <CardMedia 
-                    component="img"
-                    src={album.images[0].url}
-                    sx={{
-                        height: "auto",
-                        width: "100px"
-                    }}
+            <div className="bg-transparent">
+                <iframe
+                style={{ borderRadius: '12px', width: "auto"}}
+                src={`https://open.spotify.com/embed/track/${id}?utm_source=generator`}
+                width="100%"
+                height="152"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
                 />
-                <div className="flex flex-col">
-                    <p className="font-semibold mx-5 mt-1 text-md text-[#80d6c3]">{name}</p>
-                    <p className="mx-5 mt-1 text-sm"><span className="font-bold">Track</span> - {artists[0].name}</p>
-                    <p className="mx-5 mt-1">{album.releaseYear}</p>
-                </div>
-            </Card>
-        </Link>
+            </div>
     )
 }
 

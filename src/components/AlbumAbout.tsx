@@ -1,22 +1,21 @@
 import { useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import type { Image, Artist, Track } from "../interfaces";
+import type { Track, Album } from "../interfaces";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import PopularTracksTable from "./PopularTracksTable";
-import Discography from "./Discography";
+import AlbumTracksTable from "./AlbumTracksTable";
 
-const ArtistAbout = () => {
+const AlbumAbout = () => {
     const { id }  = useParams();
-    const [artist, setArtist] = useState<Artist>();
-    const [popularTracks, setPopularTracks] = useState<Track[]>();
+    const [album, setAlbum] = useState<Album>();
+    const [albumTracks, setAlbumTracks] = useState<Track[]>();
     const [trackPlaying, setTrackPlaying] = useState<string | undefined>();
     const navigate = useNavigate();
     const token = localStorage.getItem("jwt");
     
-    const getArtist = async () => {
-        const response = await axios.get(`http://localhost:9090/api/artists/${id}`, {
+    const getAlbum = async () => {
+        const response = await axios.get(`http://localhost:9090/api/albums/${id}`, {
             withCredentials: true,
             headers: {  
                 "Authorization": `Bearer ${token}`,
@@ -24,12 +23,12 @@ const ArtistAbout = () => {
             }
         });
         const data = response.data;
-        setArtist(data);
+        setAlbum(data);
         console.log("Artist data:", data);
     }
 
-    const getPopularSongs = async () => {
-        const response = await axios.get(`http://localhost:9090/api/artists/${id}/top-tracks`, {
+    const getAlbumTracks = async () => {
+        const response = await axios.get(`http://localhost:9090/api/albums/${id}/tracks`, {
             withCredentials: true,
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -38,20 +37,39 @@ const ArtistAbout = () => {
         });
 
         const data = response.data;
-        setPopularTracks(data.tracks);
-        console.log("Popular tracks:", data);
+        setAlbumTracks(data.items);
+        console.log("Album tracks:", data);
+    }
+
+    const formatMilliseconds = (ms: number):string => {
+        const totalSeconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+
+        const paddedMinutes = String(minutes).padStart(2, '0');
+        const paddedSeconds = String(seconds).padStart(2, '0');
+
+        return `${paddedMinutes}:${paddedSeconds}`;
+    }
+
+    const getTotalAlbumDuration = (): string => {
+        let totalDurationMS = 0;
+        albumTracks?.map(track => {
+            totalDurationMS += track.duration_ms;
+        })
+        return formatMilliseconds(totalDurationMS);
     }
 
     useEffect(() => {
-        getArtist();
-        getPopularSongs();
+        getAlbum();
+        getAlbumTracks();
     }, [])
 
     useEffect(() => {
-    if (popularTracks && popularTracks.length > 0) {
-        setTrackPlaying(popularTracks[0].id);
-    }
-    }, [popularTracks])
+        if (albumTracks && albumTracks.length > 0) {
+            setTrackPlaying(albumTracks[0].id);
+        }
+    }, [albumTracks])
 
     return(
         <div className="flex flex-col h-full p-12 gap-[4rem]">
@@ -68,15 +86,11 @@ const ArtistAbout = () => {
                         Go back
                     </Button>
                     <div className="flex flex-col mt-6 gap-4 items-center">
-                        <p className="font-bold text-[4rem] max-w-[32rem]">{artist?.name}</p>
-                        <img src={artist?.images[0].url} className="w-[400px] h-[400px] rounded-[200px]"/>
-                        <p className="text-[1.5rem]"><span className="font-bold">Followers:</span> {artist?.followers.total.toLocaleString()}</p>
-                        { (artist?.genres && artist.genres.length > 0) &&
-                            <p className="text-[1.5rem]"><span className="font-bold">Genres:</span> {artist.genres.map((genre, index) => {
-                                    if (index === artist.genres.lastIndexOf(artist.genres[artist.genres.length - 1])) return genre;
-                                    return genre + ", ";
-                                })}</p>
-                            }
+                        <p className="font-bold text-[4rem] max-w-[32rem]">{album?.name}</p>
+                        <img src={album?.images[0].url} className="w-[400px] h-[400px] rounded-[200px]"/>
+                        <p className="text-[2rem]"><span className="font-bold">Release year:</span> {album?.releaseYear}</p>
+                        <p className="text-[2rem]"><span className="font-bold">Total tracks</span> {album?.total_tracks}</p>
+                        <p className="text-[2rem]"><span className="font-bold">Duration:</span> {getTotalAlbumDuration()}</p>
                     </div>
                 </div>
                 <div className="bg-transparent self-start mt-[350px]">
@@ -90,13 +104,12 @@ const ArtistAbout = () => {
                     />
                 </div>
                 <div className="flex flex-col gap-4">
-                    <p className="font-bold text-[2rem] text-center">Popular tracks</p>
-                    <PopularTracksTable popularTracks={popularTracks ? popularTracks : []} setTrackPlaying={setTrackPlaying}/>
+                    <p className="font-bold text-[2rem] text-center">Album tracks</p>
+                    <AlbumTracksTable albumTracks={albumTracks ? albumTracks : []} setTrackPlaying={setTrackPlaying} />
                 </div>
             </div>
-            { artist && <Discography artistId={artist.id}/> }
         </div>
     )
 }
 
-export default ArtistAbout;
+export default AlbumAbout;

@@ -25,6 +25,7 @@ const Dashboard = () => {
                         const data: SearchResponse = response.data;
                         if (data.albums) setAlbums(data.albums.items);
                         if (data.artists) setArtists(data.artists.items);
+                        console.log("Searched artists:", data.artists)
                         if (data.tracks) setTracks(data.tracks.items);
                         if (data.playlists) setPlaylists(data.playlists.items);
                 } catch (error) {

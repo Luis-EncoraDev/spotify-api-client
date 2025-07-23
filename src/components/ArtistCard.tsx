@@ -8,7 +8,7 @@ const PopularArtistCard: React.FC<Artist> = ({genres, id, images, name}) => {
             <Card sx={{ width: "300px", height: "120px", backgroundColor: "transparent"}} className="flex hover:border hover:border-[#80d6c3] rounded">
                 <CardMedia 
                     component="img"
-                    src={images[2].url}
+                    src={images[0] ? images[0].url : "./userImage.png"}
                     sx={{
                         height: "auto",
                         width: "100px"
