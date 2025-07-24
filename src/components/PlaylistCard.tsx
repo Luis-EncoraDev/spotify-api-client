@@ -2,7 +2,7 @@ import { Card, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
 import { type Playlist } from "../interfaces";
 
-const PlaylistCard: React.FC<Playlist> = ({ description, id, images, name, owner, tracks }) => {
+const PlaylistCard: React.FC<Playlist> = ({ images, name, owner, tracks }) => {
     return(
         <Link to="/">
             <Card sx={{ width: "300px", height: "120px", backgroundColor: "transparent"}} className="flex hover:border hover:border-[#80d6c3] rounded">

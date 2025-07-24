@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import type { Image, Artist, Track } from "../interfaces";
+import type { Artist, Track } from "../interfaces";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";

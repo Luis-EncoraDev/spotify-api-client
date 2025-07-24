@@ -3,19 +3,6 @@ import ArtistCard from "./ArtistCard";
 import axios from "axios";
 import type { Artist } from "../interfaces";
 
-interface ArtistImages {
-    height: number,
-    url: string,
-    width: number
-}
-
-interface ArtistInfo {
-    genres: string[],
-    id: string,
-    images: ArtistImages[],
-    name: string
-}
-
 const TopArtists = () => {
     const [topArtists, setTopArtists] = useState<Artist[]>();
     const token = localStorage.getItem("jwt");

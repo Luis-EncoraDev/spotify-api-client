@@ -2,7 +2,7 @@ import { Card, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
 import { type Album } from "../interfaces";
 
-const AlbumCard: React.FC<Album> = ({ id, images, name, releaseYear, release_date, total_tracks, artists }) => {
+const AlbumCard: React.FC<Album> = ({ id, images, name, releaseYear, artists }) => {
     return(
         <Link to={`/album/${id}`}>
             <Card sx={{ width: "300px", height: "120px", backgroundColor: "transparent"}} className="flex hover:border hover:border-[#80d6c3] rounded">
