@@ -77,10 +77,10 @@ const Dashboard = () => {
                 console.error("An error occurred when fetching item:", error);
             }
         } else {
-            setAlbums([]);
-            setArtists([]);
-            setTracks([]);
-            setPlaylists([]);
+            setAlbums(undefined);
+            setArtists(undefined);
+            setTracks(undefined);
+            setPlaylists(undefined);
             setSearchText("");
             localStorage.removeItem("searchResults_albums");
             localStorage.removeItem("searchResults_artists");
@@ -91,8 +91,8 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="flex flex-col justify-start h-full items-center p-12 gap-12">
-            <SearchBar getSearchItem={getSearchItem} initialSearchText={searchText} /> {/* Pass initialSearchText */}
+        <div className="flex flex-col justify-start h-full items-center pt-12 pb-42 gap-12">
+            <SearchBar getSearchItem={getSearchItem} initialSearchText={searchText} />
             <TopArtists />
             <SearchResults
                 albums={albums}

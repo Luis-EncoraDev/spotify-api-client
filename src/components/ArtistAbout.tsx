@@ -90,14 +90,14 @@ const ArtistAbout = () => {
             { artist && <Discography artistId={artist.id}/> }
             <div className="flex bg-transparent bottom-0 w-[80%] fixed self-center">
                     <iframe
-                    style={{ borderRadius: '12px', width: "100%",   }}
+                    style={{ borderRadius: '12px', width: "100%" }}
                     src={`https://open.spotify.com/embed/track/${trackPlaying}?utm_source=generator`}
                     width="100%%"
                     height="120"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"
                     />
-                </div>
+            </div>
         </div>
     )
 }
