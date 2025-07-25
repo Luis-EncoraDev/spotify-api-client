@@ -31,7 +31,7 @@ const Discography: React.FC<DiscographyProps> = ({ artistId }) => {
     return(
         <div className="flex flex-col items-center gap-6">
             <p className="font-bold text-[2rem]">Discography</p>
-            <div className="gap-4 grid grid-cols-4">
+            <div className="gap-4 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2">
                 {
                     albums?.map((album, index) => {
                         return(

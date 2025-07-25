@@ -13,12 +13,10 @@ import PlaylistCard from "./PlaylistCard";
 
 const SearchResults: React.FC<SearchResultsProps> = ({ albums, artists, tracks, playlists }) => {
 
-    console.log("Playlists:", playlists);
-
     return(
         <div className="flex h-full flex-col items-center">
             <p className="text-[2rem]">Search results</p>
-            <div className="flex mt-2 grid grid-cols-3 gap-5">
+            <div className="flex mt-2 justify-items-center grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
                 {tracks &&
                     tracks.map(track => {
                         if (track != null)

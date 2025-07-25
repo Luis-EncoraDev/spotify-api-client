@@ -22,21 +22,28 @@ const TopArtists = () => {
         getTopArtists();
     }, [])
 
-    return(
-        <div className="flex flex-col w-screen h-fit items-center">
-            <p className="text-[2rem]">Top artists</p>
-            <div className="flex justify-items-center w-[85%] h-auto p-6 mt-2 bg-transparent border border-[#9d9e9d] rounded grid grid-cols-4 gap-x-1 gap-y-4">
+    return (
+            <div className="flex flex-col w-screen h-fit items-center">
+                <p className="text-[2rem]">Top artists</p>
+                <div className="flex justify-items-center w-[80%] h-auto p-6 mt-2 bg-transparent border border-[#9d9e9d] rounded grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-1 gap-y-4">
                 {
                     topArtists && topArtists.map(artist => {
-                        return(
-                            <ArtistCard key={artist.name} genres={artist.genres} id={artist.id} images={artist.images} name={artist.name} followers={artist.followers}/>
-                        )
+                    return (
+                        <ArtistCard
+                        key={artist.name}
+                        genres={artist.genres}
+                        id={artist.id}
+                        images={artist.images}
+                        name={artist.name}
+                        followers={artist.followers}
+                        />
+                    )
                     })
                 }
-
+                </div>
             </div>
-        </div>
-    )
+        )
+
 }
 
 export default TopArtists;

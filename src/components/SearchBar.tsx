@@ -1,17 +1,16 @@
 import TextField from '@mui/material/TextField';
-import React, { useState, useEffect } from 'react'; // Import useEffect
+import React, { useState, useEffect } from 'react';
 
 interface SearchBarProps {
     getSearchItem(searchText: string, typesQueryString: string): void;
-    initialSearchText?: string; // New prop for initial search text
+    initialSearchText?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ getSearchItem, initialSearchText }) => {
 
-    const [searchText, setSearchText] = useState<string>(initialSearchText || ""); // Initialize with prop or empty string
+    const [searchText, setSearchText] = useState<string>(initialSearchText || "");
     const typesQueryString = "artist%2Calbum%2Ctrack%2Cplaylist";
 
-    // Update internal searchText when initialSearchText prop changes
     useEffect(() => {
         if (initialSearchText !== undefined) {
             setSearchText(initialSearchText);

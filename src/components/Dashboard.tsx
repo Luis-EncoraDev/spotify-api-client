@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react"; // Import useEffect
+import { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
 import TopArtists from "./TopArtists";
 import SearchResults from "./SearchResults";
@@ -10,10 +10,9 @@ const Dashboard = () => {
     const [artists, setArtists] = useState<Artist[]>();
     const [tracks, setTracks] = useState<Track[]>();
     const [playlists, setPlaylists] = useState<Playlist[]>();
-    const [searchText, setSearchText] = useState<string>(""); // State to hold the search text
+    const [searchText, setSearchText] = useState<string>("");
     const token = localStorage.getItem("jwt");
 
-    // Load search results from localStorage on initial mount
     useEffect(() => {
         const savedAlbums = localStorage.getItem("searchResults_albums");
         const savedArtists = localStorage.getItem("searchResults_artists");
@@ -27,10 +26,10 @@ const Dashboard = () => {
         if (savedPlaylists) setPlaylists(JSON.parse(savedPlaylists));
         if (savedSearchText) setSearchText(savedSearchText);
 
-    }, []); // Empty dependency array means this runs once on mount
+    }, []); 
 
     const getSearchItem = async (searchTextParam: string, typesQueryString: string) => {
-        setSearchText(searchTextParam); // Update the search text state
+        setSearchText(searchTextParam); 
         if (searchTextParam !== "") {
             try {
                 const encodedSearchText = searchTextParam.replaceAll(" ", "%20");
@@ -44,7 +43,6 @@ const Dashboard = () => {
 
                 const data: SearchResponse = response.data;
 
-                // Update state and localStorage
                 if (data.albums) {
                     setAlbums(data.albums.items);
                     localStorage.setItem("searchResults_albums", JSON.stringify(data.albums.items));
@@ -73,28 +71,17 @@ const Dashboard = () => {
                     setPlaylists([]);
                     localStorage.removeItem("searchResults_playlists");
                 }
-                localStorage.setItem("lastSearchText", searchTextParam); // Save the search text
+                localStorage.setItem("lastSearchText", searchTextParam); 
 
             } catch (error) {
                 console.error("An error occurred when fetching item:", error);
-                // Optionally clear results and localStorage on error
-                setAlbums([]);
-                setArtists([]);
-                setTracks([]);
-                setPlaylists([]);
-                localStorage.removeItem("searchResults_albums");
-                localStorage.removeItem("searchResults_artists");
-                localStorage.removeItem("searchResults_tracks");
-                localStorage.removeItem("searchResults_playlists");
-                localStorage.removeItem("lastSearchText");
             }
         } else {
-            // Clear state and localStorage if search text is empty
             setAlbums([]);
             setArtists([]);
             setTracks([]);
             setPlaylists([]);
-            setSearchText(""); // Clear search text
+            setSearchText("");
             localStorage.removeItem("searchResults_albums");
             localStorage.removeItem("searchResults_artists");
             localStorage.removeItem("searchResults_tracks");
