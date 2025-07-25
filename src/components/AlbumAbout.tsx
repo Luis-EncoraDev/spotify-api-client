@@ -72,8 +72,8 @@ const AlbumAbout = () => {
     }, [albumTracks])
 
     return(
-        <div className="flex flex-col h-full p-12 gap-[4rem]">
-            <div className="flex w-auto h-full justify-around items-start">
+        <div className="flex flex-col h-full pt-12 pb-12 sm:pb-42 gap-[4rem]">
+            <div className="w-auto h-full grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-1 sm:grid sm:grid-cols-1 md:justify-items-center sm:justify-items-center gap-y-32">
                 <div className="flex flex-col gap-4">
                     <Button 
                         onClick={() => navigate("/")}
@@ -86,28 +86,28 @@ const AlbumAbout = () => {
                         Go back
                     </Button>
                     <div className="flex flex-col mt-6 gap-4 items-center">
-                        <p className="font-bold text-[4rem] max-w-[32rem]">{album?.name}</p>
+                        <p className="font-bold text-[4rem] text-center max-w-[32rem]">{album?.name}</p>
                         <img src={album?.images[0].url} className="w-[400px] h-[400px] rounded-[200px]"/>
                         <p className="text-[2rem]"><span className="font-bold">Release year:</span> {album?.releaseYear}</p>
                         <p className="text-[2rem]"><span className="font-bold">Total tracks</span> {album?.total_tracks}</p>
                         <p className="text-[2rem]"><span className="font-bold">Duration:</span> {getTotalAlbumDuration()}</p>
                     </div>
                 </div>
-                <div className="bg-transparent self-start mt-[350px]">
-                    <iframe
-                    style={{ borderRadius: '12px', width: "auto"}}
-                    src={`https://open.spotify.com/embed/track/${trackPlaying}?utm_source=generator`}
-                    width="100%"
-                    height="160"
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    />
-                </div>
                 <div className="flex flex-col gap-4">
                     <p className="font-bold text-[2rem] text-center">Album tracks</p>
                     <AlbumTracksTable albumTracks={albumTracks ? albumTracks : []} setTrackPlaying={setTrackPlaying} />
                 </div>
             </div>
+                <div className="flex bg-transparent bottom-0 w-[80%] fixed self-center">
+                    <iframe
+                    style={{ borderRadius: '12px', width: "100%",   }}
+                    src={`https://open.spotify.com/embed/track/${trackPlaying}?utm_source=generator`}
+                    width="100%%"
+                    height="120"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    />
+                </div>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import { type Artist } from "../interfaces";
 const PopularArtistCard: React.FC<Artist> = ({genres, id, images, name}) => {
     return(
         <Link to={`/artist/${id}`}>
-            <Card sx={{ width: "300px", height: "120px", backgroundColor: "transparent"}} className="flex hover:border hover:border-[#80d6c3] rounded">
+            <Card sx={{ backgroundColor: "transparent"}} className="flex xl:w-[300px] lg:w-[250px] md:w-[250px] sm:w-[250px] h-[120px] hover:border hover:border-[#80d6c3] rounded">
                 <CardMedia 
                     component="img"
                     src={images[0] ? images[0].url : "./userImage.png"}

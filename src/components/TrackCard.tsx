@@ -1,8 +1,6 @@
-import { Card, CardMedia } from "@mui/material";
-import { Link } from "react-router-dom";
 import { type Track } from "../interfaces";
 
-const TrackCard: React.FC<Track> = ({ album, duration_ms, id, name, preview_url, is_playable, artists }) => {
+const TrackCard: React.FC<Track> = ({ id }) => {
     return(
             <div className="bg-transparent">
                 <iframe

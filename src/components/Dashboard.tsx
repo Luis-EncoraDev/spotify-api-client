@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
 import TopArtists from "./TopArtists";
 import SearchResults from "./SearchResults";
@@ -10,43 +10,98 @@ const Dashboard = () => {
     const [artists, setArtists] = useState<Artist[]>();
     const [tracks, setTracks] = useState<Track[]>();
     const [playlists, setPlaylists] = useState<Playlist[]>();
+    const [searchText, setSearchText] = useState<string>("");
     const token = localStorage.getItem("jwt");
-   
-    const getSearchItem = async (searchText: string, typesQueryString: string) => {
-            if (searchText != "") {
-                try {
-                        const response = await axios.get(`http://localhost:9090/api/search?q=${searchText}&type=${typesQueryString}`, {
-                        withCredentials: true,
-                        headers: {
-                            "Authorization": `Bearer ${token}`,
-                            "Content-Type": "application/json"
-                        }})
 
-                        const data: SearchResponse = response.data;
-                        if (data.albums) setAlbums(data.albums.items);
-                        if (data.artists) setArtists(data.artists.items);
-                        console.log("Searched artists:", data.artists)
-                        if (data.tracks) setTracks(data.tracks.items);
-                        if (data.playlists) setPlaylists(data.playlists.items);
-                } catch (error) {
-                    console.error("An error occurred when fething item:", error);
+    useEffect(() => {
+        const savedAlbums = localStorage.getItem("searchResults_albums");
+        const savedArtists = localStorage.getItem("searchResults_artists");
+        const savedTracks = localStorage.getItem("searchResults_tracks");
+        const savedPlaylists = localStorage.getItem("searchResults_playlists");
+        const savedSearchText = localStorage.getItem("lastSearchText");
+
+        if (savedAlbums) setAlbums(JSON.parse(savedAlbums));
+        if (savedArtists) setArtists(JSON.parse(savedArtists));
+        if (savedTracks) setTracks(JSON.parse(savedTracks));
+        if (savedPlaylists) setPlaylists(JSON.parse(savedPlaylists));
+        if (savedSearchText) setSearchText(savedSearchText);
+
+    }, []); 
+
+    const getSearchItem = async (searchTextParam: string, typesQueryString: string) => {
+        setSearchText(searchTextParam); 
+        if (searchTextParam !== "") {
+            try {
+                const encodedSearchText = searchTextParam.replaceAll(" ", "%20");
+                const response = await axios.get(`http://localhost:9090/api/search?q=${encodedSearchText}&type=${typesQueryString}`, {
+                    withCredentials: true,
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const data: SearchResponse = response.data;
+
+                if (data.albums) {
+                    setAlbums(data.albums.items);
+                    localStorage.setItem("searchResults_albums", JSON.stringify(data.albums.items));
+                } else {
+                    setAlbums([]);
+                    localStorage.removeItem("searchResults_albums");
                 }
-                
-        } else {
-            setAlbums([]);
-            setArtists([]);
-            setTracks([]);
-            setPlaylists([]);
-        }
-    }
+                if (data.artists) {
+                    setArtists(data.artists.items);
+                    localStorage.setItem("searchResults_artists", JSON.stringify(data.artists.items));
+                } else {
+                    setArtists([]);
+                    localStorage.removeItem("searchResults_artists");
+                }
+                if (data.tracks) {
+                    setTracks(data.tracks.items);
+                    localStorage.setItem("searchResults_tracks", JSON.stringify(data.tracks.items));
+                } else {
+                    setTracks([]);
+                    localStorage.removeItem("searchResults_tracks");
+                }
+                if (data.playlists) {
+                    setPlaylists(data.playlists.items);
+                    localStorage.setItem("searchResults_playlists", JSON.stringify(data.playlists.items));
+                } else {
+                    setPlaylists([]);
+                    localStorage.removeItem("searchResults_playlists");
+                }
+                localStorage.setItem("lastSearchText", searchTextParam); 
 
-    return(
-        <div className="flex flex-col justify-start h-full items-center p-12 gap-12">
-            <SearchBar getSearchItem={getSearchItem}/>
+            } catch (error) {
+                console.error("An error occurred when fetching item:", error);
+            }
+        } else {
+            setAlbums(undefined);
+            setArtists(undefined);
+            setTracks(undefined);
+            setPlaylists(undefined);
+            setSearchText("");
+            localStorage.removeItem("searchResults_albums");
+            localStorage.removeItem("searchResults_artists");
+            localStorage.removeItem("searchResults_tracks");
+            localStorage.removeItem("searchResults_playlists");
+            localStorage.removeItem("lastSearchText");
+        }
+    };
+
+    return (
+        <div className="flex flex-col justify-start h-full items-center pt-12 pb-42 gap-12">
+            <SearchBar getSearchItem={getSearchItem} initialSearchText={searchText} />
             <TopArtists />
-            <SearchResults albums={albums ? albums : undefined} artists={artists ? artists : undefined} tracks={tracks ? tracks : undefined} playlists={playlists ? playlists : undefined}/>
+            <SearchResults
+                albums={albums}
+                artists={artists}
+                tracks={tracks}
+                playlists={playlists}
+            />
         </div>
-    )
-}
+    );
+};
 
 export default Dashboard;
