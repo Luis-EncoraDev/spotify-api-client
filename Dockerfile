@@ -16,7 +16,6 @@ FROM nginx:alpine
 # Copy built assets from Vite
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Optional: Custom Nginx config (see below)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080

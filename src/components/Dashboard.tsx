@@ -90,23 +90,8 @@ const Dashboard = () => {
         }
     };
 
-    // const logout = async () => {
-    //     await axios.post("http://localhost:9090/logout");
-    // }
-
-    // const handleLogout = () => {
-    //     localStorage.removeItem("jwt"); // Clear the JWT token
-    //     // The form submission below will handle the backend logout
-    // };
-
     return (
         <div className="flex flex-col justify-start h-full items-center pt-12 pb-42 gap-12">
-            {/* <div className="flex w-full justify-around">
-                <SearchBar getSearchItem={getSearchItem} initialSearchText={searchText} />
-                <form action="http://localhost:9090/logout" method="post" onSubmit={handleLogout}>
-                    <Button type="submit">Log out</Button>
-                </form>
-            </div> */}
             <SearchBar getSearchItem={getSearchItem} initialSearchText={searchText} />
             <TopArtists />
             <SearchResults

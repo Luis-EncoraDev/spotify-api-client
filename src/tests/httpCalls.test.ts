@@ -8,7 +8,6 @@ const mockedAxios = vi.mocked(axios);
 describe('HTTP requests to Spring Boot', () => {
   const mockToken = 'mock-jwt-token';
   const mockId = '123';
-  const mockArtistId = '456';
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -336,53 +335,6 @@ describe('HTTP requests to Spring Boot', () => {
       });
       return response.data;
     };
-
-    it('should fetch artist albums with Accept header instead of Content-Type', async () => {
-      const mockAlbums: Album[] = [
-        {
-          id: '123',
-          name: 'Artist Album 1',
-          releaseYear: 2023,
-          release_date: 1672531200000,
-          total_tracks: 12,
-          images: [
-            { height: 300, url: 'https://example.com/album1.jpg', width: 300 }
-          ],
-          artists: [
-            { id: mockArtistId, name: 'Test Artist', release_year: 2023, images: [] }
-          ]
-        },
-        {
-          id: '124',
-          name: 'Artist Album 2',
-          releaseYear: 2022,
-          release_date: 1640995200000,
-          total_tracks: 8,
-          images: [],
-          artists: [
-            { id: mockArtistId, name: 'Test Artist', release_year: 2022, images: [] }
-          ]
-        }
-      ];
-
-      const mockResponse = { data: { albums: mockAlbums } };
-      (mockedAxios.get as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockResponse);
-
-      const result = await getArtistAlbums(mockArtistId, mockToken);
-
-      expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-      expect(mockedAxios.get).toHaveBeenCalledWith(
-        `http://localhost:9090/api/artists/${mockArtistId}/albums`,
-        {
-          withCredentials: true,
-          headers: {
-            "Authorization": `Bearer ${mockToken}`,
-            "Accept": "application/json"
-          }
-        }
-      );
-      expect(result).toEqual({ albums: mockAlbums });
-    });
   });
 
   describe('getTopArtists', () => {

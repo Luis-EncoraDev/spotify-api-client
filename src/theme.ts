@@ -26,17 +26,6 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Circular", "Helvetica", "Arial", sans-serif', // Spotify-like font
+    fontFamily: '"Circular", "Helvetica", "Arial", sans-serif',
   },
-  // components: {
-  //   MuiButton: {
-  //     styleOverrides: {
-  //       root: {
-  //         borderRadius: 20,
-  //         textTransform: 'none',
-  //         padding: '8px 22px',
-  //       },
-  //     },
-  //   },
-  // },
 });
